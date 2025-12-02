@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f6f4f1;
+  color: #1f1f1f;
+}
+
+.btn-primary {
+  @apply bg-black text-white px-5 py-3 uppercase tracking-wide transition transform hover:scale-105;
+}
+
+.card-hover {
+  @apply transition-transform duration-300 hover:scale-[1.02];
+}
