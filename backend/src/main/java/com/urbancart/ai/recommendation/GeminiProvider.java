@@ -4,11 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -29,22 +30,35 @@ public class GeminiProvider implements AIProvider {
     @Value("${gemini.api.model:gemini-2.0-flash}")
     private String model;
 
-    private static final String GEMINI_URL_TEMPLATE = "https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent?key=";
+    private static final String GEMINI_URL_TEMPLATE = "https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent";
 
     @Override
     public List<String> generateKeywords(String query) {
+        if (!StringUtils.hasText(apiKey) || apiKey.contains("YOUR_")) {
+            log.warn("Gemini API key is missing or placeholder; falling back to naive keywords");
+            return List.of(query.split(" "));
+        }
+
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("x-goog-api-key", apiKey);
             Map<String, Object> payload = Map.of(
                     "contents", List.of(Map.of(
-                            "parts", List.of(Map.of("text", "Extract concise fashion product keywords separated by commas from: '" + query + "'"))
+                            "parts", List.of(Map.of("text", """
+                                    Extract concise fashion product search terms separated by commas from the text: '%s'.
+                                    Return only single-word, singular tokens (no phrases) in a flat comma-separated list.
+                                    Prefer catalog-friendly bases like 'women', 'men', 'dress', 'jacket', colors, fabrics, and style/occasion terms.
+                                    """.formatted(query)))
                     ))
             );
             HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
             String url = GEMINI_URL_TEMPLATE.formatted(model);
-            Map response = restTemplate.postForObject(url + apiKey, entity, Map.class);
+            Map response = restTemplate.postForObject(url, entity, Map.class);
             return parseKeywords(response);
+        } catch (HttpStatusCodeException e) {
+            log.error("Gemini call failed with status {} and body: {}", e.getStatusCode(), e.getResponseBodyAsString());
+            return List.of(query.split(" "));
         } catch (Exception e) {
             log.error("Gemini call failed, falling back to naive keywords", e);
             return List.of(query.split(" "));
