@@ -14,7 +14,7 @@ import { RatingStarsComponent } from './rating-stars.component';
         <img [src]="product.imageUrls?.[0]" alt="" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
       </div>
       <div class="p-4 space-y-2">
-        <h3 class="text-xl font-semibold">{{ product.title }}</h3>
+        <h3 class="text-xl font-semibold text-black">{{ product.title }}</h3>
         <p class="text-sm text-gray-600 line-clamp-2">{{ product.description }}</p>
         <div class="flex items-center justify-between">
           <span class="text-lg font-bold">₹{{ product.price }}</span>

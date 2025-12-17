@@ -54,7 +54,9 @@ import { RouterLink } from '@angular/router';
               <span class="font-semibold">Total</span>
               <span class="text-2xl font-black">₹{{ subtotal }}</span>
             </div>
-            <a routerLink="/checkout" class="btn-primary w-full text-center rounded-full">Checkout</a>
+            <div class="pt-4">
+              <a routerLink="/checkout" class="btn-primary w-full text-center rounded-full block">Checkout</a>
+            </div>
             <p class="text-xs text-slate-500">Taxes calculated at checkout. COD available.</p>
           </div>
         </div>

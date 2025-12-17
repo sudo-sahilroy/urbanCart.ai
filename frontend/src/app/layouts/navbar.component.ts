@@ -17,13 +17,13 @@ import { AuthService } from '../core/services/auth.service';
         <a routerLink="/cart" class="hover:underline">Cart</a>
         <a *ngIf="!isLoggedIn()" routerLink="/login" class="hover:underline">Login</a>
         <a *ngIf="!isLoggedIn()" routerLink="/signup" class="hover:underline">Sign up</a>
-        <button *ngIf="isLoggedIn()" (click)="logout()" class="hover:underline">Logout</button>
+        <button *ngIf="isLoggedIn()" (click)="logout()" class="hover:underline">LOGOUT</button>
       </div>
     </nav>
   `
 })
 export class NavbarComponent {
   constructor(private auth: AuthService) {}
-  isLoggedIn = computed(() => !!this.auth.accessToken);
+  isLoggedIn = computed(() => !!this.auth.accessToken());
   logout() { this.auth.logout(); }
 }

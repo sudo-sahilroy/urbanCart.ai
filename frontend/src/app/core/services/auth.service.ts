@@ -13,6 +13,7 @@ interface AuthResponse {
 export class AuthService {
   private api = 'http://localhost:8080/api';
   userSignal = signal<User | null>(this.getStoredUser());
+  accessToken = signal<string | null>(localStorage.getItem('accessToken'));
 
   constructor(private http: HttpClient) {}
 
@@ -39,10 +40,7 @@ export class AuthService {
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
     this.userSignal.set(null);
-  }
-
-  get accessToken(): string | null {
-    return localStorage.getItem('accessToken');
+    this.accessToken.set(null);
   }
 
   private persist(res: AuthResponse) {
@@ -50,6 +48,7 @@ export class AuthService {
     localStorage.setItem('refreshToken', res.refreshToken);
     localStorage.setItem('user', JSON.stringify(res.user));
     this.userSignal.set(res.user);
+    this.accessToken.set(res.accessToken);
   }
 
   private getStoredUser(): User | null {

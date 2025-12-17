@@ -20,13 +20,25 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.css"],
             "scripts": []
-          }
+          },
+          "configurations": {
+            "development": {
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "urbancart:build"
-          }
+          },
+          "configurations": {
+            "development": {
+              "browserTarget": "urbancart:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
         }
       }
     }
