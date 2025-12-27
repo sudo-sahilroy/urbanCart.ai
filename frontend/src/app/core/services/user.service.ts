@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  private api = 'http://localhost:8080/api/users';
+  private api = 'https://urbancartbackend-5npe.onrender.com/api/users';
   constructor(private http: HttpClient) {}
 
   me(): Observable<User> {

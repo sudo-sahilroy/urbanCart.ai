@@ -9,7 +9,7 @@ interface RecommendationResponse {
 
 @Injectable({ providedIn: 'root' })
 export class AiService {
-  private api = 'http://localhost:8080/api/ai';
+  private api = 'https://urbancartbackend-5npe.onrender.com/api/ai';
   constructor(private http: HttpClient) {}
 
   recommend(query: string): Observable<RecommendationResponse> {

@@ -11,7 +11,7 @@ interface AuthResponse {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private api = 'http://localhost:8080/api';
+  private api = 'https://urbancartbackend-5npe.onrender.com/api';
   userSignal = signal<User | null>(this.getStoredUser());
   accessToken = signal<string | null>(localStorage.getItem('accessToken'));
 

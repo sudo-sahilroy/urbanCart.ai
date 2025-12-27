@@ -12,7 +12,7 @@ interface ProductPage {
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-  private api = 'http://localhost:8080/api/products';
+  private api = 'https://urbancartbackend-5npe.onrender.com/api/products';
   constructor(private http: HttpClient) {}
 
   list(params: { page?: number; size?: number; category?: string; search?: string; }): Observable<ProductPage> {

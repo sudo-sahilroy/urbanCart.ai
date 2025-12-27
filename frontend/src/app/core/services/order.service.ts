@@ -5,7 +5,7 @@ import { Order } from '../models/order.model';
 
 @Injectable({ providedIn: 'root' })
 export class OrderService {
-  private api = 'http://localhost:8080/api/orders';
+  private api = 'https://urbancartbackend-5npe.onrender.com/api/orders';
   constructor(private http: HttpClient) {}
 
   create(shippingAddress: string): Observable<Order> {
