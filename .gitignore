@@ -17,4 +17,3 @@
 
 # Local DB volume
 /pgdata/
-/backend/src/main/resources/application.yml
